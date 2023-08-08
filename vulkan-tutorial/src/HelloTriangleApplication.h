@@ -9,7 +9,7 @@
 #include <vector>
 
 const std::vector<const char*> validationLayers = {
-	"VK_LAYER_KHRONOS_validation"  
+	"VK_LAYER_KHRONOS_validation"
 };
 
 //指定是否需要使用校验层

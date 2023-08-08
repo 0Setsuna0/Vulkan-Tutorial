@@ -1,16 +1,11 @@
 #include "HelloTriangleApplication.h"
 
-VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
-	const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pCallback)
-{
-	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)
-		vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
-	if (func != nullptr)
-	{
-		return func(instance, pCreateInfo, pAllocator, pCallback);
+VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) {
+	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
+	if (func != nullptr) {
+		return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
 	}
-	else
-	{
+	else {
 		return VK_ERROR_EXTENSION_NOT_PRESENT;
 	}
 }
@@ -160,7 +155,7 @@ void HelloTriangleApplication::createInstance()
 
 	//指定需要的全局拓展
 	auto extensionsg = getRequiredExtensions();
-	createInfo.enabledExtensionCount = extensionsg.size();
+	createInfo.enabledExtensionCount = static_cast<uint32_t>(extensionsg.size());
 	createInfo.ppEnabledExtensionNames = extensionsg.data();
 
 	//指定全局校验层
@@ -180,10 +175,10 @@ void HelloTriangleApplication::createInstance()
 	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
 	std::cout << "available extensions:" << std::endl;
 
-	for (const auto& extension : extensions)
-	{
-		std::cout << "\t" << extension.extensionName << std::endl;
-	}
+	//for (const auto& extension : extensions)
+	//{
+	//	std::cout << "\t" << extension.extensionName << std::endl;
+	//}
 
 	//填完所有必要的信息，即可创建Vulkan实例
 	if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
